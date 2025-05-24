@@ -1,26 +1,41 @@
 {
-  "name": "videoplugin",
+  "name": "YouTube Transcript Summarizer",
   "version": "1.0.0",
-  "manifest_version": 2,
-  "description": "An extension to provide summarized transcript of a YouTube Subtitle eligible video",
-  "permissions": ["activeTab"],
+  "manifest_version": 3,
+  "description": "An extension to provide summarized transcript of a YouTube video",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "http://127.0.0.1:5000/*"
+  ],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
-    "matches": ["http://www.youtube.com/watch?v=*"],
-    "js": ["contentScript.js"]
-  }
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": ["contentScript.js"]
+    }
   ],
-  "browser_action": {
-    "default_icon": {"128": "reqd.png",
+  "action": {
+    "default_icon": {
+      "128": "reqd.png",
+      "48": "reqd.png",
+      "32": "reqd.png",
+      "16": "reqd.png"
+    },
+    "default_popup": "popup.html",
+    "default_title": "YouTube Transcript Summarizer"
+  },
+  "icons": {
+    "128": "reqd.png",
     "48": "reqd.png",
     "32": "reqd.png",
-    "16": "reqd.png"},
-    "default_popup": "popup.html",
-    "default_title": "Enter YouTube video URL to have its contents summarized",
-    "browser_style": true
+    "16": "reqd.png"
   }
 }
