@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         if (videoId) {
                             // Call your Flask API
-                            const apiUrl = `http://127.0.0.1:5000/summarize/api?youtube_url=${encodeURIComponent(currentUrl)}`;
+                            const apiUrl = `http://127.0.0.1:5000/summarize/api?youtube_url=${encodeURIComponent(currentUrl)}&full_transcript=true`;
                             
                             fetch(apiUrl)
                                 .then(response => {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     }
                                 })
                                 .catch(error => {
-                                    console.error('Error:', error);
+                                    console.error('Error:', error.message || JSON.stringify(error));
                                     if (error.error) {
                                         summaryText.textContent = `Error: ${error.error}`;
                                     } else {

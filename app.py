@@ -80,6 +80,7 @@ def get_summarize():
     try:
         # Get YouTube URL from query parameters
         youtube_url = request.args.get('youtube_url')
+        full_transcript_flag = request.args.get('full_transcript', 'false').lower() == 'true'
         
         if not youtube_url:
             return jsonify({'error': 'youtube_url parameter is required'}), 400
@@ -102,13 +103,16 @@ def get_summarize():
         
         print(f"Successfully got transcript. Length: {len(transcript)} characters")
         
-        # Generate summary
-        print("Generating summary...")
-        summary = simple_summarize(transcript)
-        print(f"Summary generated. Length: {len(summary)} characters")
+        if full_transcript_flag:
+            print("Returning full transcript as requested.")
+            response_text = transcript
+        else:
+            print("Generating summary...")
+            response_text = simple_summarize(transcript)
+            print(f"Summary generated. Length: {len(response_text)} characters")
         
         return jsonify({
-            'responseText': summary,
+            'responseText': response_text,
             'video_id': video_id,
             'transcript_length': len(transcript)
         }), 200
